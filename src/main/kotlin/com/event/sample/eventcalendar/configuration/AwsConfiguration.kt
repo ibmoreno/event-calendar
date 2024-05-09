@@ -14,8 +14,7 @@ import software.amazon.awssdk.services.sqs.SqsAsyncClient
 class AwsConfiguration(
     @Value("\${spring.cloud.aws.sqs.region.static}") private val region: String,
     @Value("\${spring.cloud.aws.sqs.queueName}") private val queueName: String,
-    @Value("\${spring.cloud.aws.sqs.endpoint}") private val endpoint: String,
-    private val objectMapper: ObjectMapper
+    @Value("\${spring.cloud.aws.sqs.endpoint}") private val endpoint: String
 ) {
 
     @Bean
@@ -27,9 +26,11 @@ class AwsConfiguration(
     }
 
     @Bean
-    fun sqsTemplate(sqsAsyncClient: SqsAsyncClient): SqsTemplate {
+    fun sqsTemplate(sqsAsyncClient: SqsAsyncClient, objectMapper: ObjectMapper): SqsTemplate {
         return SqsTemplate.builder().sqsAsyncClient(sqsAsyncClient)
-            .configureDefaultConverter { it.setObjectMapper(objectMapper) }
+            .configureDefaultConverter {
+                it.setObjectMapper(objectMapper)
+            }
             .configure {
                 it.defaultQueue(queueName)
             }.build()

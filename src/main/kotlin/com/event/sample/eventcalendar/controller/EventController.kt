@@ -16,8 +16,8 @@ class EventController(private val sqsMessageService: SqsMessageService) {
 
     private val logger = LoggerFactory.getLogger(EventController::class.java)
 
-    @PostMapping("/add")
-    fun salve(@RequestBody event: EventData): ResponseEntity<Any> {
+    @PostMapping
+    fun create(@RequestBody event: EventData): ResponseEntity<Any> {
         logger.info("Thread name: {}", Thread.currentThread().name)
         logger.info("Send message: {}", event)
         sqsMessageService.sendMessage(event)

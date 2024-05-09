@@ -16,7 +16,9 @@ class SqsMessageListener(
     @SqsListener("\${spring.cloud.aws.sqs.queueName}")
     fun queueListener(message: Message<String>) {
         logger.info("Thread name: {}", Thread.currentThread().name)
+        logger.info("Receive message: {}", message.payload)
         val eventData = objectMapper.readValue(message.payload, EventData::class.java)
         logger.info("Receive message: {}", eventData)
     }
+
 }
