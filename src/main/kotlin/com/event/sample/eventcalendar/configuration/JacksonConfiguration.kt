@@ -1,5 +1,6 @@
 package com.event.sample.eventcalendar.configuration
 
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer
@@ -15,6 +16,7 @@ class JacksonConfiguration : Jackson2ObjectMapperBuilderCustomizer {
 
     override fun customize(jacksonObjectMapperBuilder: Jackson2ObjectMapperBuilder?) {
         jacksonObjectMapperBuilder
+            //?.featuresToEnable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
             ?.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             ?.deserializers(LocalDateTimeDeserializer(DateTimeFormatter.ISO_DATE_TIME))
             ?.deserializers(LocalDateDeserializer(DateTimeFormatter.ISO_LOCAL_DATE))
